@@ -12,7 +12,7 @@ you can add several polygons / lines / points that interplay with each other.
 Background color: sets the canvas background color
 
 
-Color: sets the color of the current polygon, at the moment when <space> is hit (see the controls section)
+Color: sets the color of the current polygon, at the moment when &lt;space&gt; is hit (see the controls section)
 
 
 Switch: the number of iterations after which the Chaos Game will switch from the current polygon to another polygon.
@@ -27,14 +27,14 @@ The 'next' option will always switch to the next polygon (in order of addition),
 Mouse click (or finger on tablet/phone) to add single points on the canvas.
 
 
-<space> to make a closed polygon of all the points so far.
-To add more polygons, add more points and hit <space> again.
-To add a single point, you have to hit <space> after a single mouse click.
-Every time when you hit <space> the polygon will be drawn in the selected 'color'. So you can make something colorful by selecting a different color every time.
+&lt;space&gt; to make a closed polygon of all the points so far.
+To add more polygons, add more points and hit &lt;space&gt; again.
+To add a single point, you have to hit &lt;space&gt; after a single mouse click.
+Every time when you hit &lt;space&gt; the polygon will be drawn in the selected 'color'. So you can make something colorful by selecting a different color every time.
 There is a button 'add polygon' with the same effect (for if you are on a device without a keyboard).
 
 
-<enter> to start the chaos game. This can take a few seconds.
+&lt;enter&gt; to start the chaos game. This can take a few seconds.
 
 
 <ctrl + c> will copy the list of polygons to the clipboard. So this can also be used as a tool to 'hand draw' some figures, and then use the coordinates in another program.
