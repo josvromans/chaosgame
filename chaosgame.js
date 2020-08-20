@@ -1,5 +1,7 @@
-var polygon_list = []
-var temp_coordinates_list = []
+var polygon_list = [];
+var temp_coordinates_list = [];
+var colors = [];
+var block_action = false;
 
 
 const copyToClipboard = str => {
@@ -21,7 +23,15 @@ function getRandomItem(list) {
     return list[random_index];
 }
 
-function draw_polygon(e){
+function draw_polygon(){
+    if (block_action === true) {
+        return;
+    }
+    block_action = true;
+
+    var color = document.getElementById('current_color').value;
+    colors.push(color);
+
     var ctx = canvas.getContext('2d');
     ctx.beginPath();
 
@@ -30,26 +40,31 @@ function draw_polygon(e){
 
     ctx.closePath();
 
-    ctx.strokeStyle = "#FFF";
+    ctx.strokeStyle = color;
     ctx.lineWidth = 1;
     ctx.stroke();
 
     polygon_list.push(temp_coordinates_list);
 
     temp_coordinates_list = [];
+    block_action = false;
 }
 
 
-function start_chaos_game(ctx, canvas, iterations=1200000){
+function start_chaos_game(ctx, canvas, iterations=1500000){
+    if (block_action === true) {
+        return;
+    }
+    block_action = true;
+
+    var bg_color = document.getElementById('background_color').value;
+
+    ctx.fillStyle = bg_color;
+    canvas.style.backgroundColor = bg_color;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    var colors = [
-        document.getElementById('color1').value,
-        document.getElementById('color2').value,
-        document.getElementById('color3').value,
-        document.getElementById('color4').value,
-    ];
     var switch_poly = document.getElementById('switch_poly').value;
+    var switch_strategy = document.getElementById('switch-strategy').value;
 
     var polygon_index = 0;
     var color = colors[polygon_index];
@@ -57,8 +72,11 @@ function start_chaos_game(ctx, canvas, iterations=1200000){
 
     for (i=0; i<iterations; i+=1) {
         if (i % switch_poly === 0) {
-            // polygon_index = (polygon_index + 1) % polygon_list.length;
-            polygon_index = getRandomInteger(0, polygon_list.length - 1);
+            if (switch_strategy === 'random') {
+                polygon_index = getRandomInteger(0, polygon_list.length - 1);
+            } else {
+                polygon_index = (polygon_index + 1) % polygon_list.length;
+            }
             color = colors[polygon_index % colors.length];
         }
 
@@ -73,14 +91,17 @@ function start_chaos_game(ctx, canvas, iterations=1200000){
 
         start_point = midpoint;
     }
+    block_action = false;
 }
+
 
 document.addEventListener('DOMContentLoaded', function(event) {
     var canvas = document.getElementById('canvas');
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width  = window.innerWidth - 4;
+    canvas.height = window.innerHeight - 4;
     var ctx = canvas.getContext('2d');
 
+    // Add points on mouse down
     canvas.addEventListener("mousedown", event => {
         let bound = canvas.getBoundingClientRect();
         let x = event.clientX - bound.left - canvas.clientLeft;
@@ -89,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
         ctx.fillStyle = '#FFF';
         ctx.fillRect(x - 1,y - 1,2,2);
-
     })
 
     document.addEventListener('keyup', event => {
@@ -97,6 +117,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
             draw_polygon();
         }
     })
+    document.getElementById('add_polygon').addEventListener("mouseup", event => {draw_polygon()});
+    document.getElementById('start').addEventListener("mouseup", event => {start_chaos_game(ctx, canvas)});
 
     document.addEventListener('keydown', function(event) {
         // on ctrl-c: add the list of polygons to the clipboard (as a Python list of lists of tuples)
@@ -110,15 +132,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
                 clip_str += '    ],\n'
             }
             clip_str += ']'
-            // console.log(clip_str)
             copyToClipboard(clip_str);
         }
 
         if (event.keyCode === 13) {
-            // Cancel the default action, if needed
-            // event.preventDefault();
             start_chaos_game(ctx, canvas);
         }
-
     });
 })

@@ -7,3 +7,30 @@ html, body {
 canvas {
     background-color: black;
 }
+
+.menu {
+  height: 100%;
+  width: 100px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  color: white;
+  font-family: arial;
+}
+
+input {
+    max-width: 80px;
+}
+
+button {
+    width: 80px;
+    height: 50px;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+.buttons {
+    position: fixed;
+    bottom: 0;
+}

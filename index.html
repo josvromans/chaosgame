@@ -8,20 +8,29 @@
     <script src="chaosgame.js"></script>
 </head>
 <body>
+    <div class="menu">
+         <div>Background:</div>
+        <input id="background_color" name="Background Color Picker" type="color"/>
 
+        <div>Color:</div>
+        <input id="current_color" name="Color Picker" type="color" value="#FFFFFF"/>
 
-<script src="jscolor.js"></script>
-<p>
-    Color 1: <input id="color1" value="#00F">
-    Color 2: <input id="color2" value="#0F0">
-    Color 3: <input id="color3" value="#F00">
-    Color 4: <input id="color4" value="#FFF">
-    Switch: <input id="switch_poly" value="20">
-</p>
+        <div>Switch:</div>
+        <input id="switch_poly" value="20">
 
-<canvas id="canvas">
+        <label for="switch-strategy">Strategy:</label>
+        <select name="switch-strategy" id="switch-strategy">
+            <option value="random">random</option>
+            <option value="next">next</option>
+        </select>
 
-</canvas>
+        <div class="buttons">
+<!--            <a href="chaos_game.html">click here</a>-->
+            <button id="add_polygon" title="Make a polygon of all the points that were clicked so far. Keyboard shortcut: <SPACE>">Add Polygon</button>
+            <button id="start" title="Start the Chaos Game. Keyboard shortcut: <ENTER>">Start</button>
+        </div>
+    </div>
 
+    <canvas id="canvas"></canvas>
 </body>
 </html>
