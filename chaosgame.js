@@ -65,6 +65,7 @@ function start_chaos_game(ctx, canvas, iterations=1500000){
 
     var switch_poly = document.getElementById('switch_poly').value;
     var switch_strategy = document.getElementById('switch-strategy').value;
+    var divisor = parseFloat(document.getElementById('divisor').value);
 
     var polygon_index = 0;
     var color = colors[polygon_index];
@@ -82,8 +83,8 @@ function start_chaos_game(ctx, canvas, iterations=1500000){
 
         var random_point = getRandomItem(polygon_list[polygon_index]);
         var midpoint = [
-            start_point[0] + (random_point[0] - start_point[0]) / 2,
-            start_point[1] + (random_point[1] - start_point[1]) / 2,
+            start_point[0] + (random_point[0] - start_point[0]) / divisor,
+            start_point[1] + (random_point[1] - start_point[1]) / divisor,
         ];
 
         ctx.fillStyle = color;

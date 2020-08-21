@@ -18,6 +18,9 @@ Color: sets the color of the current polygon, at the moment when &lt;space&gt; i
 Switch: the number of iterations after which the Chaos Game will switch from the current polygon to another polygon.
 
 
+Divisor: when the divisor is 2, every next point will be drawn halfway the previous point, and the selected random corner point.
+
+
 Strategy: The 'random' option will switch to a random nexy polygon, where every polygon (even the current one) has the same chance.
 The 'next' option will always switch to the next polygon (in order of addition), and after the last polygon, the next one will be the first polygon.
 
@@ -50,3 +53,11 @@ polygon_list = [
     ],
 ]
 ```
+
+**A few examples**
+
+![Example 1](example_1.png)
+![Example 2](example_2.png)
+![Example 3](example_3.png)
+![Example 4](example_4.png)
+![Example 5](example_5.png)
