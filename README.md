@@ -40,6 +40,9 @@ There is a button 'add polygon' with the same effect (for if you are on a device
 &lt;enter&gt; to start the chaos game. This can take a few seconds.
 
 
+&lt;F5&gt; To start over with a blank canvas (by just refreshing the page)
+
+
 <ctrl + c> will copy the list of polygons to the clipboard. So this can also be used as a tool to 'hand draw' some figures, and then use the coordinates in another program.
 The structure is a Python compatible list of lists of tuples (where each tuple is a point, each list of tuples is a polygon, and the whole is a list of polygons).
 For example:
