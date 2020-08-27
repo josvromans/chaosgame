@@ -61,6 +61,7 @@ function start_chaos_game(ctx, canvas, iterations=1500000){
 
     ctx.fillStyle = bg_color;
     canvas.style.backgroundColor = bg_color;
+    document.body.style.background = bg_color;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     var switch_poly = document.getElementById('switch_poly').value;
