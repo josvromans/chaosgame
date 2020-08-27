@@ -28,6 +28,9 @@ button {
     height: 50px;
     padding: 0;
     margin-bottom: 25px;
+    background-color: #BBB;
+    border-style: hidden;
+    border-radius: 6px;
 }
 
 .buttons {
