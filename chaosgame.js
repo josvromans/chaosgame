@@ -2,16 +2,18 @@ var polygon_list = [];
 var temp_coordinates_list = [];
 var colors = [];
 var block_action = false;
+var iterations = 1500000;
 
 
-const copyToClipboard = str => {
-    const el = document.createElement('textarea');
-    el.value = str;
+function copyToClipboard(clip_str) {
+    var el = document.createElement('textarea');
+    el.value = clip_str;
     document.body.appendChild(el);
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
-};
+}
+
 
 // This function always returns a random number between min and max (both included):
 function getRandomInteger(min, max) {
@@ -23,7 +25,7 @@ function getRandomItem(list) {
     return list[random_index];
 }
 
-function draw_polygon(){
+function draw_polygon(canvas){
     if (block_action === true) {
         return;
     }
@@ -39,8 +41,9 @@ function draw_polygon(){
     var ctx = canvas.getContext('2d');
     ctx.beginPath();
 
-    for (item=0; item<temp_coordinates_list.length ; item+=1 ){
-        ctx.lineTo(temp_coordinates_list[item][0] , temp_coordinates_list[item][1])}
+    for (var item=0; item<temp_coordinates_list.length ; item+=1 ){
+        ctx.lineTo(temp_coordinates_list[item][0], temp_coordinates_list[item][1]);
+    }
 
     ctx.closePath();
 
@@ -55,7 +58,7 @@ function draw_polygon(){
 }
 
 
-function clear_canvas(ctx){
+function clear_canvas(ctx, canvas){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     polygon_list = [];
     temp_coordinates_list = [];
@@ -63,7 +66,7 @@ function clear_canvas(ctx){
 }
 
 
-function start_chaos_game(ctx, canvas, iterations=1500000){
+function start_chaos_game(ctx, canvas){
     if (block_action === true) {
         return;
     }
@@ -87,7 +90,7 @@ function start_chaos_game(ctx, canvas, iterations=1500000){
     var color = colors[polygon_index];
     var start_point = [0, 0];
 
-    for (i=0; i<iterations; i+=1) {
+    for (var i=0; i<iterations; i+=1) {
         if (i % switch_poly === 0) {
             if (switch_strategy === 'random') {
                 polygon_index = getRandomInteger(0, polygon_list.length - 1);
@@ -119,36 +122,36 @@ document.addEventListener('DOMContentLoaded', function(event) {
     var ctx = canvas.getContext('2d');
 
     // Add points on mouse down
-    canvas.addEventListener("mousedown", event => {
-        let bound = canvas.getBoundingClientRect();
-        let x = event.clientX - bound.left - canvas.clientLeft;
-        let y = event.clientY - bound.top - canvas.clientTop;
+    canvas.addEventListener("mousedown", function(event){
+        var bound = canvas.getBoundingClientRect();
+        var x = event.clientX - bound.left - canvas.clientLeft;
+        var y = event.clientY - bound.top - canvas.clientTop;
         temp_coordinates_list.push([x, y]);
 
         ctx.fillStyle = '#FFF';
         ctx.fillRect(x - 1,y - 1,2,2);
-    })
+    });
 
-    document.getElementById('add_polygon').addEventListener("mouseup", event => {draw_polygon()});
-    document.getElementById('start').addEventListener("mouseup", event => {start_chaos_game(ctx, canvas)});
-    document.getElementById('clear').addEventListener("mouseup", event => {clear_canvas(ctx)});
+    document.getElementById('add_polygon').addEventListener("mouseup", draw_polygon(canvas));
+    document.getElementById('start').addEventListener("mouseup", start_chaos_game(ctx, canvas));
+    document.getElementById('clear').addEventListener("mouseup", clear_canvas(ctx, canvas));
 
     document.addEventListener('keydown', function(event) {
         // on ctrl-c: add the list of polygons to the clipboard (as a Python list of lists of tuples)
         if (event.code == 'KeyC' && (event.ctrlKey || event.metaKey)) {
-            var clip_str = 'polygon_list = [\n'
-            for (poly_index=0; poly_index<polygon_list.length; poly_index+=1 ){
-                clip_str += '    [\n'
-                for (index=0; index<polygon_list[poly_index].length; index+=1 ){
-                    clip_str += '        (' + polygon_list[poly_index][index][0] + ', ' + polygon_list[poly_index][index][1] + '),\n'
+            var clip_str = 'polygon_list = [\n';
+            for (var poly_index=0; poly_index<polygon_list.length; poly_index+=1 ){
+                clip_str += '    [\n';
+                for (var index=0; index<polygon_list[poly_index].length; index+=1 ){
+                    clip_str += '        (' + polygon_list[poly_index][index][0] + ', ' + polygon_list[poly_index][index][1] + '),\n';
                 }
-                clip_str += '    ],\n'
+                clip_str += '    ],\n';
             }
-            clip_str += ']'
+            clip_str += ']';
             copyToClipboard(clip_str);
         }
         else if (event.keyCode === 13) {start_chaos_game(ctx, canvas);}  // Enter
-        else if (event.code === 'Space') {draw_polygon();}
-        else if (event.keyCode === 67) {clear_canvas(ctx);}  // c
+        else if (event.code === 'Space') {draw_polygon(canvas);}
+        else if (event.keyCode === 67) {clear_canvas(ctx, canvas);}  // c
     });
-})
+});
