@@ -132,9 +132,15 @@ document.addEventListener('DOMContentLoaded', function(event) {
         ctx.fillRect(x - 1,y - 1,2,2);
     });
 
-    document.getElementById('add_polygon').addEventListener("mouseup", draw_polygon(canvas));
-    document.getElementById('start').addEventListener("mouseup", start_chaos_game(ctx, canvas));
-    document.getElementById('clear').addEventListener("mouseup", clear_canvas(ctx, canvas));
+    document.getElementById('add_polygon').addEventListener("mouseup", function() {
+        draw_polygon(canvas);
+    });
+    document.getElementById('start').addEventListener("mouseup", function() {
+        start_chaos_game(ctx, canvas);
+    });
+    document.getElementById('clear').addEventListener("mouseup", function() {
+        clear_canvas(ctx, canvas);
+    });
 
     document.addEventListener('keydown', function(event) {
         // on ctrl-c: add the list of polygons to the clipboard (as a Python list of lists of tuples)
