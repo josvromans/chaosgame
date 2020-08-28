@@ -27,6 +27,10 @@ function draw_polygon(){
     if (block_action === true) {
         return;
     }
+    if (temp_coordinates_list.length === 0){
+        return;
+    }
+
     block_action = true;
 
     var color = document.getElementById('current_color').value;
@@ -51,8 +55,19 @@ function draw_polygon(){
 }
 
 
+function clear_canvas(ctx){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    polygon_list = [];
+    temp_coordinates_list = [];
+    colors = [];
+}
+
+
 function start_chaos_game(ctx, canvas, iterations=1500000){
     if (block_action === true) {
+        return;
+    }
+    if (polygon_list.length === 0){
         return;
     }
     block_action = true;
@@ -114,13 +129,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
         ctx.fillRect(x - 1,y - 1,2,2);
     })
 
-    document.addEventListener('keyup', event => {
-        if (event.code === 'Space') {
-            draw_polygon();
-        }
-    })
     document.getElementById('add_polygon').addEventListener("mouseup", event => {draw_polygon()});
     document.getElementById('start').addEventListener("mouseup", event => {start_chaos_game(ctx, canvas)});
+    document.getElementById('clear').addEventListener("mouseup", event => {clear_canvas(ctx)});
 
     document.addEventListener('keydown', function(event) {
         // on ctrl-c: add the list of polygons to the clipboard (as a Python list of lists of tuples)
@@ -136,9 +147,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
             clip_str += ']'
             copyToClipboard(clip_str);
         }
-
-        if (event.keyCode === 13) {
-            start_chaos_game(ctx, canvas);
-        }
+        else if (event.keyCode === 13) {start_chaos_game(ctx, canvas);}  // Enter
+        else if (event.code === 'Space') {draw_polygon();}
+        else if (event.keyCode === 67) {clear_canvas(ctx);}  // c
     });
 })
